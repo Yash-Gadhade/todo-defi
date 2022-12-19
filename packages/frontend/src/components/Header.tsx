@@ -11,7 +11,7 @@ const Header: React.FC<{}> = () => {
         </Link>
       </div>
       <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="flex items-center space-x-4 px-1">
           <li>
             <Link to="/join">
               <button className="btn btn-primary">Join Campaign</button>

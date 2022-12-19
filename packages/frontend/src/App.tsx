@@ -1,18 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import '@rainbow-me/rainbowkit/styles.css';
 
 import Header from './components/Header';
+import Home from './pages/Home';
 
-const { chains, provider, webSocketProvider } = configureChains(
-  [goerli],
-  [publicProvider()]
-);
+const { chains, provider } = configureChains([goerli], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
   appName: 'My RainbowKit App',
@@ -32,6 +29,9 @@ const App: React.FC<{}> = () => {
         <Router>
           <main>
             <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+            </Routes>
           </main>
         </Router>
       </RainbowKitProvider>
