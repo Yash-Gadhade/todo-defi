@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Header: React.FC<{}> = () => {
   return (
@@ -12,7 +13,12 @@ const Header: React.FC<{}> = () => {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link to="/join">Join Campaign</Link>
+            <Link to="/join">
+              <button className="btn btn-primary">Join Campaign</button>
+            </Link>
+          </li>
+          <li>
+            <ConnectButton />
           </li>
         </ul>
       </div>
