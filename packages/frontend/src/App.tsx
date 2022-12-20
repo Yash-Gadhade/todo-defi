@@ -8,6 +8,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 
 import Header from './components/Header';
 import Home from './pages/Home';
+import JoinCampaign from './pages/JoinCampaign';
 
 const { chains, provider } = configureChains([goerli], [publicProvider()]);
 
@@ -31,6 +32,7 @@ const App: React.FC<{}> = () => {
             <Header />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/join" element={<JoinCampaign />} />
             </Routes>
           </main>
         </Router>

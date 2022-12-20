@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Home: React.FC<{}> = () => {
   return (
-    <div className="hero min-h-[calc(100vh-88px)] bg-base-200">
+    <div className="hero min-page-height bg-base-200">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">Build a Habit</h1>
@@ -22,3 +22,28 @@ const Home: React.FC<{}> = () => {
 };
 
 export default Home;
+
+/**
+ * pragma solidity ^0.6.0;
+
+contract DailyTransactionLimit {
+    // store the current date and the address of the last transaction
+    uint256 public currentDate;
+    address public lastTransactionAddress;
+
+    // constructor to initialize the current date
+    constructor() public {
+        currentDate = now / 86400; // divide by number of seconds in a day to get current date
+    }
+
+    // function to make a transaction
+    function makeTransaction() public {
+        // check if the last transaction was made by the same address on the same day
+        require(lastTransactionAddress != msg.sender || currentDate != now / 86400, "You can only make one transaction per day");
+
+        // update the current date and last transaction address
+        currentDate = now / 86400;
+        lastTransactionAddress = msg.sender;
+    }
+}
+ */
