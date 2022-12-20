@@ -34,18 +34,20 @@ contract Habit {
 
     // function to withdraw deposit
     function withdraw() public {
+        require(
+            daysCompleted[msg.sender] > 0 && daysCompleted[msg.sender] <= numberOfDays,
+            "You must have started a habit to request a refund"
+        );
         uint refundAmount;
-        uint balanceAmount;
         if (daysCompleted[msg.sender] == numberOfDays) {
             refundAmount = deposits[msg.sender];
-            balanceAmount = 0;
         } else {
-            balanceAmount =
+            uint balanceAmount =
                 (daysCompleted[msg.sender] / numberOfDays) *
                 deposits[msg.sender];
             refundAmount = deposits[msg.sender] - balanceAmount;
         }
-        payable(msg.sender).transfer(deposits[msg.sender]);
+        payable(msg.sender).transfer(refundAmount);
         deposits[msg.sender] = 0;
         daysCompleted[msg.sender] = 0;
         // todo : send balance amount to smart contract wallet to be distributed among the people who complete the streak
