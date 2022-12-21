@@ -142,4 +142,10 @@ contract HabitApp is Ownable {
     function getCampaigns() external view returns (Campaign[] memory) {
         return campaigns;
     }
+
+    function getUserCampaign(
+        address userAddress
+    ) external view returns (UserCampaign memory) {
+        return addressToCampaign[userAddress];
+    }
 }
