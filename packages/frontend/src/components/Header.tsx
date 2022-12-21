@@ -18,6 +18,11 @@ const Header: React.FC<{}> = () => {
             </Link>
           </li>
           <li>
+            <Link to="/my-campaign">
+              <button className="btn btn-secondary">My Campaign</button>
+            </Link>
+          </li>
+          <li>
             <ConnectButton />
           </li>
         </ul>
