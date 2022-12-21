@@ -70,7 +70,12 @@ const SetHabits: React.FC<Props> = ({ habits, dispatch }) => {
           </tbody>
         </table>
       </div>
-      <button className="btn btn-wide btn-primary mt-24">Submit</button>
+      <button
+        className="btn btn-wide btn-primary mt-24"
+        onClick={() => dispatch({ type: 'GO_TO_REVIEW' })}
+      >
+        Submit
+      </button>
     </div>
   );
 };
