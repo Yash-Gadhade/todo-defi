@@ -50,15 +50,8 @@ contract HabitApp is Ownable {
             msg.value == campaignSelected.tokenLockInRequired,
             "Incorrect amount of tokens sent"
         );
-        // // create campaign smart contract
-        // CampaignContract campaignContract = new CampaignContract(
-        //     habits,
-        //     campaignSelected.name,
-        //     campaignSelected.duration,
-        //     msg.sender
-        // );
 
-        // store campaign smart contract in mapping
+        // store campaign in mapping
         addressToCampaign[msg.sender] = UserCampaign({
             campaign: campaigns[campaignIndex],
             noOfDaysLeft: campaigns[campaignIndex].duration,
@@ -67,12 +60,11 @@ contract HabitApp is Ownable {
             fundsClaimable: 0,
             lastMarkedDoneAt: block.timestamp / 86400
         });
-        /// TODO
     }
 
     function withdrawClaimableFunds() external {
         require(
-            addressToCampaign[msg.sender].noOfDaysLeft > 0,
+            addressToCampaign[msg.sender].noOfDaysLeft == 0,
             "You cannot withdraw right now"
         );
 
@@ -99,11 +91,6 @@ contract HabitApp is Ownable {
             "Invalid noOfHabitsDoneToday"
         );
 
-        // update the current date and last transaction address
-        addressToCampaign[msg.sender].lastMarkedDoneAt =
-            block.timestamp /
-            86400;
-
         if (addressToCampaign[msg.sender].noOfDaysLeft == 1) {
             addressToCampaign[msg.sender].fundsClaimable += addressToCampaign[
                 msg.sender
@@ -127,12 +114,32 @@ contract HabitApp is Ownable {
             addressToCampaign[msg.sender].fundsClaimable += fundsUnlocked;
         }
 
-        addressToCampaign[msg.sender].noOfDaysLeft--;
+        uint256 currentDate = block.timestamp / 86400;
+
+        if (
+            addressToCampaign[msg.sender].noOfDaysLeft >=
+            (currentDate - addressToCampaign[msg.sender].lastMarkedDoneAt)
+        ) {
+            addressToCampaign[msg.sender].noOfDaysLeft =
+                addressToCampaign[msg.sender].noOfDaysLeft -
+                (currentDate - addressToCampaign[msg.sender].lastMarkedDoneAt);
+        } else {
+            addressToCampaign[msg.sender].noOfDaysLeft = 0;
+        }
+
+        // update the current date and last transaction address
+        addressToCampaign[msg.sender].lastMarkedDoneAt =
+            block.timestamp /
+            86400;
     }
 
     function withdrawDeductions() external onlyOwner {
         (bool sent, ) = owner().call{value: _fundsDeducted}("");
         require(sent, "Failed to send Ether");
         _fundsDeducted = 0;
+    }
+
+    function getCampaigns() external view returns (Campaign[] memory) {
+        return campaigns;
     }
 }
