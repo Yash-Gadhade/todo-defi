@@ -1,32 +1,18 @@
 import React, { SyntheticEvent } from 'react';
 
+import { Campaign } from '../types';
+
 interface Props {
   selectedCampaign: any;
   dispatch: any;
+  campaigns: Campaign[];
 }
 
-type Campaign = {
-  name: string;
-};
-
-const ChooseCampaign: React.FC<Props> = ({ selectedCampaign, dispatch }) => {
-  const [campaigns, setCampaigns] = React.useState<Array<Campaign>>([]);
-  React.useEffect(() => {
-    (async () => {
-      setCampaigns([
-        {
-          name: '10 days Challenge',
-        },
-        {
-          name: '15 days Challenge',
-        },
-        {
-          name: '30 days Challenge',
-        },
-      ]);
-    })();
-  }, []);
-
+const ChooseCampaign: React.FC<Props> = ({
+  selectedCampaign,
+  dispatch,
+  campaigns,
+}) => {
   const submitHandler = (event: SyntheticEvent) => {
     event.preventDefault();
 
